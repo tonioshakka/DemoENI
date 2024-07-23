@@ -51,7 +51,7 @@ app.delete('/article/:id', (request, response)=> {
     
         const id = parseInt(request.params.id, 10);
         const articleIndex = articles.findIndex(a => a.id === id);
-        articles.slice(articleIndex, 1)
+        articles.splice(articleIndex, 1)
 
     return response.json({message : "delete"})
 });
