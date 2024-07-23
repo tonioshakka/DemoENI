@@ -2,6 +2,7 @@ const express = require('express');
 
 const app = express();
 
+//Mock
 let articles = [
     { id: 1, title: 'Vélo', content: 'VTT', author: 'Isaac' },
     { id: 2, title: 'Menottes', content: 'Jouet pour couples', author: 'Sanchez' },
@@ -10,6 +11,7 @@ let articles = [
     { id: 5, title: 'Telephone', content: 'Lieu de drague', author: 'Isaac' },
 
 ]; 
+//Autoriser express à reeçevoir des données envoyées en Json dans le body( payload)
 app.use(express.json());
 app.get('/articles', (request, response)=> {
     return response.json(articles)
@@ -45,6 +47,12 @@ app.post('/save-article', (request, response) => {
 
 
 app.delete('/article/:id', (request, response)=> {
+        
+    
+        const id = parseInt(request.params.id, 10);
+        const articleIndex = articles.findIndex(a => a.id === id);
+        articles.slice(articleIndex, 1)
+
     return response.json({message : "delete"})
 });
 
