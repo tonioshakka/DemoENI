@@ -1,5 +1,5 @@
 {
-  "name": "tp_aticle_api",
+  "name": "projects",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "mongoose": "^8.5.1",
+    "swagger-ui-express": "^5.0.1",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "swagger-autogen": "^2.23.7"
   }
 }
