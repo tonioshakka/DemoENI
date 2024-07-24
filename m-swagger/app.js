@@ -3,6 +3,15 @@ const express = require('express');
 //Instancier l'application serveur
 const app = express();
 
+// ----------------------------------------------------------
+// * SWAGGER UI
+// ----------------------------------------------------------
+const swaggerUI = require('swagger-ui-express');
+// -- importer la doc swagger la doc swagger généré
+const swaggerDocument = require('../swagger-output.json');
+// utiliser le swagger
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+
 //Mock List viennoiseries
 let DB_VIENNOISERIES = [
     'Pain au chocolat',
