@@ -19,7 +19,23 @@ mongoose.connection.on('error', (er) => {
  //Se connecter à mongodb
 mongoose.connect("mongodb://localhost:27017/db_demo_eni");
 
+//Declarer le modele Person
+//1 : Nom pour les relations dans le code JS (on n'utilise pas pour le moment)
+//2 : Les attributs attendus pour ce Model
+//3 : Le nom de la collection (Table en SQL) en base liée
+const Person = mongoose.model('Person', {uid : String, pseudo : String}, 'persons');
+
+
 //======================================================
+
+app.get('/persons', async (request, response) => {
+
+    //SelectAll de persons
+    const persons = await Person.find();
+
+    return response.json(persons);
+})
+
 
 //Lancer le serveur
 app.listen(3000, () => {
