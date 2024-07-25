@@ -82,6 +82,7 @@ app.post('/save-article/users/authenticate', async (request, response) => {
         // essayer de trouver un article existant
         foundArticle = await Article.findOne({uid : id});
     
+
         // Si je trouve l'article à modifier 
         if (!foundArticle) {
             return response.json(response, '701', 'Impossible d ajouter un article avec un titre déjà existant', null );
@@ -113,6 +114,7 @@ app.post('/save-article/users/authenticate', async (request, response) => {
 
     //Message succès    
         return responseService(response, '200', 'Article ajouté avec succès', createArticle);
+
 
 });
 
