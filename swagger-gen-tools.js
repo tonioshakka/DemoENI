@@ -17,7 +17,7 @@ const doc = {
 const outputFile = './swagger-output.json';
  
 // La liste des fichiers .js ou sont écrites mes routes (qu'il doit scanner)
-const endpointFiles = ['./m_04/app.js'];
+const endpointFiles = ['./m_swagger/app.js'];
  
 // générer la doc
 /**

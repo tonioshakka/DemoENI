@@ -21,11 +21,20 @@ let DB_VIENNOISERIES = [
     'Nutella',
     'Galette saucisse'
 ];
+
+function responseService(response, code, message, data) {
+        return response.json({code: code, message: message, data: data});
+}
+
 //Déclarer des routes
 app.get('/viennoiseries', (request, response) => {
+// #swagger.summary = 'La route qui permet de récupérer les pains au chocolat'
+
     //Retourner la réponse json
-    return response.json(DB_VIENNOISERIES);
+    return responseService(response, '200', 'Les données ont été récupérées', DB_VIENNOISERIES);
+
 });
+
 
 //Démarrer
 //param 1 le port où on lance le serveur

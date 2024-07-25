@@ -35,9 +35,23 @@ const Article = mongoose.model('Article', {uid : String, title : String, content
 
 
 // Routes
+
+/**
+ * Fonction utilitaire pour retourner une structure de réponse métier
+ * @param {*} response
+ * @param {*} code
+ * @param {*} message
+ * @param {*} data
+ * @returns
+ */
+function responseService(response, code, message, data) {
+        return response.json({code: code, message: message, data: data});
+}
+
+
 app.get('/articles', async (request, response) => {
     const articles = await Article.find();
-    return response.json(articles)
+    return responseService(response, '200', 'La liste des articles a été récupérés avec succès', articles);
 });
 
 app.get('/article/:id',  async (request, response) => {
@@ -48,10 +62,10 @@ app.get('/article/:id',  async (request, response) => {
     // Le code qui retrouve l'article ayant l'attribut id === l'id en param
     const foundArticle = await Article.findOne({uid : id});
 
-    return response.json(foundArticle);
+    return responseService(response, '200', 'Article récupéré avec succès', foundArticle);
 });
 
-app.post('/save-article', async (request, response) => {
+app.post('/save-article/users/authenticate', async (request, response) => {
 
     // Récupérer l'article envoyé en json
     const articleJSON = request.body;
@@ -70,7 +84,7 @@ app.post('/save-article', async (request, response) => {
     
         // Si je trouve l'article à modifier 
         if (!foundArticle) {
-            return response.json("Impossible de mofifier un article inexistant")
+            return response.json(response, '701', 'Impossible d ajouter un article avec un titre déjà existant', null );
         }
 
             //Mettre à jour les attributs
@@ -82,7 +96,7 @@ app.post('/save-article', async (request, response) => {
             await foundArticle.save();
 
             //Retourner message de succés
-            return response.json(`L'article a été modifié avec succès`);
+            return responseService(response, '200', 'Article modifié avec succès', foundArticle);
         }
     
     //----------------------------------------------------------------
@@ -97,12 +111,20 @@ app.post('/save-article', async (request, response) => {
     //Sauvegarder en base
         await createArticle.save();
 
-    //Messaeg succès    
-    return response.json(`Article crée avec succès !`);
+    //Message succès    
+        return responseService(response, '200', 'Article ajouté avec succès', createArticle);
+
 });
 
-app.delete('/article/:id', async (request, response) => {
+app.post('/auth' , (request, response) => {
 
+            return responseService(response, '200', 'Authentifié(e) avec succès ', token);   
+
+});
+
+app.delete('/article/:id/users/authenticate', async (request, response) => {
+
+    
     // Il faut l'id 
     const id = request.params.id;
 
@@ -111,13 +133,11 @@ app.delete('/article/:id', async (request, response) => {
 
     // si article non trouve erreur
     if (!foundArticle) {
-        return response.json(`Impossible de supprimer un article inexistant`);
-    }
-
+        return responseService(response, '702', 'Impossible de supprimer un article dont l UID n existe pas ', null);   
+    };
     // supprimer grace à l'index
     await foundArticle.deleteOne();
-
-    return response.json(`Article supprimé ${id}`);
+    return responseService(response, '200', 'article ${id} a été supprimé avec succès ', foundArticle);
 });
 
 // Démarrer le serveur
